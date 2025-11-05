@@ -127,22 +127,24 @@
   });
 
   function getRandomPositionBelowButtons(element) {
-      // Lấy vị trí thấp nhất của các nút hiện tại
-      let maxTop = 0;
-      initialButtons.forEach(btn => {
-          const rect = btn.getBoundingClientRect();
-          if(rect.bottom > maxTop) maxTop = rect.bottom + 200;
-      });
+    const containerRect = btnContainer.getBoundingClientRect();
 
-      const containerRect = btnContainer.getBoundingClientRect();
-      const minY = maxTop - containerRect.top + 5; // +5 padding
-      const maxY = containerRect.height - element.offsetHeight - 5;
-      const maxX = containerRect.width - element.offsetWidth - 5;
+    // Tìm vị trí thấp nhất của các nút ban đầu
+    let maxButtonBottom = 0;
+    initialButtons.forEach(btn => {
+        const rect = btn.getBoundingClientRect();
+        if(rect.bottom > maxButtonBottom) maxButtonBottom = rect.bottom;
+    });
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * (maxY - minY) + minY;
-      return {x, y};
-  }
+    // Vùng nhảy: từ dưới các nút ban đầu + 10px padding đến đáy container - nút height
+    const minY = maxButtonBottom - containerRect.top + 10; 
+    const maxY = containerRect.height - element.offsetHeight - 10;
+    const maxX = containerRect.width - element.offsetWidth - 10;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * (maxY - minY) + minY;
+    return {x, y};
+}
 
   function moveNoBtn(btn) {
       const pos = getRandomPositionBelowButtons(btn);
