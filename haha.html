@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Cute</title>
+<style>
+  body {
+    background-color: #ffe6f0;
+    font-family: 'Comic Sans MS', cursive;
+    text-align: center;
+    padding: 20px;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+  h1 { color: #ff66b3; font-size: 2rem; margin-bottom: 10px; }
+  p { font-size: 1.2rem; margin-bottom: 30px; }
+
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .yesBtn { background-color: #ff99cc; color: #fff; }
+  .noBtn { background-color: #ff99cc; color: #fff; }
+
+  #yesMessage {
+    display: none;
+    margin-top: 30px;
+    font-size: 1.5rem;
+    color: #e91e63;
+  }
+  
+  #yesMessage2 {
+    display: none;
+    margin-top: 30px;
+    font-size: 1.5rem;
+    color: #e91e63;
+  }
+  #chooseAgain { display:none; background-color: #66ccff; color:#fff; }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 1.5rem; }
+    p { font-size: 1rem; }
+    button { padding: 14px 28px; font-size: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<h1>💖 Hello bạn hiền 💖</h1>
+<p>Trong các thành viên sau đây, ai là người đẹp nhất?</p>
+
+<div class="btn-container" id="btnContainer">
+  <button class="yesBtn" onclick="answerYes()">Chinh</button>
+  <button class="noBtn" onclick="moveNoBtn(this)">Loan</button>
+  <button class="yesBtn" onclick="answerYes()">Bảo</button>
+  <button class="noBtn" onclick="moveNoBtn(this)">Chúc</button>
+</div>
+
+<div id="yesMessage">
+  <h2>😍 Quá chuẩn!</h2>
+</div>
+<div id="yesMessage2">
+  <h2>💖 Nhan sắc của bạn thì không từ nào có thể miêu tả được !!!</h2>
+</div>
+<button id="chooseAgain" onclick="chooseAgain()">Chọn lại</button>
+<script>
+  const btnContainer = document.getElementById('btnContainer');
+  const initialButtons = Array.from(btnContainer.querySelectorAll('button'));
+  let holdTimer;
+
+  const yesBtns = document.querySelectorAll('.yesBtn');
+  const noBtns = document.querySelectorAll('.noBtn');
+  const chooseAgainBtn = document.getElementById('chooseAgain');
+
+  noBtns.forEach(btn => {
+    btn.addEventListener('mousedown', () => {
+        holdTimer = setTimeout(() => {
+            document.getElementById('yesMessage2').style.display = 'block';
+            yesBtns.forEach(b => b.style.display = 'none');
+            noBtns.forEach(n => n.style.display = 'none');
+            chooseAgainBtn.style.display = 'inline-block';
+        }, 1000);
+    });
+    btn.addEventListener('mouseup', () => clearTimeout(holdTimer));
+    btn.addEventListener('mouseleave', () => clearTimeout(holdTimer));
+
+    btn.addEventListener('touchstart', () => {
+        holdTimer = setTimeout(() => {
+            document.getElementById('yesMessage2').style.display = 'block';
+            yesBtns.forEach(b => b.style.display = 'none');
+            noBtns.forEach(n => n.style.display = 'none');
+            chooseAgainBtn.style.display = 'inline-block';
+        }, 1000);
+    });
+    btn.addEventListener('touchend', () => clearTimeout(holdTimer));
+    btn.addEventListener('touchcancel', () => clearTimeout(holdTimer));
+  });
+
+  function getRandomPositionBelowButtons(element) {
+      // Lấy vị trí thấp nhất của các nút hiện tại
+      let maxTop = 0;
+      initialButtons.forEach(btn => {
+          const rect = btn.getBoundingClientRect();
+          if(rect.bottom > maxTop) maxTop = rect.bottom + 200;
+      });
+
+      const containerRect = btnContainer.getBoundingClientRect();
+      const minY = maxTop - containerRect.top + 5; // +5 padding
+      const maxY = containerRect.height - element.offsetHeight - 5;
+      const maxX = containerRect.width - element.offsetWidth - 5;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * (maxY - minY) + minY;
+      return {x, y};
+  }
+
+  function moveNoBtn(btn) {
+      const pos = getRandomPositionBelowButtons(btn);
+      btn.style.position = "absolute";
+      btn.style.left = pos.x + "px";
+      btn.style.top = pos.y + "px";
+  }
+
+  // Nhấn nút "Có"
+  function answerYes() {
+      document.getElementById('yesMessage').style.display = 'block';
+      yesBtns.forEach(b => b.style.display = 'none');
+      noBtns.forEach(b => b.style.display = 'none');
+      chooseAgainBtn.style.display = 'inline-block';
+  }
+
+  function chooseAgain() {
+    document.getElementById('yesMessage').style.display = 'none';
+    document.getElementById('yesMessage2').style.display = 'none';
+    chooseAgainBtn.style.display = 'none';
+
+    yesBtns.forEach(b => b.style.display = 'inline-block');
+    noBtns.forEach(btn => {
+        btn.style.display = 'inline-block';
+        btn.style.position = "relative";
+        btn.style.left = "0px";
+        btn.style.top = "0px";
+    });
+}
+</script>
+
+</body>
+</html>
