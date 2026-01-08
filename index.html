@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <title>Cute</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">Hỏi nè</a> |
+      <a href="animal.html">Con vật hôm nay 🐾</a>
+    </nav>
+    <h1>💖 Bạn có dễ thương hông? 💖</h1>
+
+    <div class="btn-container" id="btnContainer">
+        <button class="noBtn" onclick="moveNoBtn(this)">Có</button>
+        <button class="yesBtn" onclick="answerYes()">Hông</button>
+    </div>
+
+    <div id="yesMessage">
+      <h2>Chuẩn</h2>
+    </div>
+    <div id="yesMessage2">
+      <h2>Siu siu dễ thương !!!</h2>
+    </div>
+    <button id="chooseAgain" onclick="chooseAgain()">Chọn lại</button>
+    <script src="/assets/js/main.js"></script>
+  </body>
+</html>
